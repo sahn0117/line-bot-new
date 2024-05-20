@@ -19,9 +19,9 @@ app = Flask(__name__)
 # 在程式碼中設定 API 金鑰
 openai.api_key = 'sk-proj-Pz0R5C0BT0KMme72cUrXT3BlbkFJrZK8C1UPzuCubqufTJO2'
 
-line_bot_api = LineBotApi('irls/WjLt0CaZdR8sjH02YcMQ5xaUfwDdAP6ZDAaS6Fcrdm/IQ649QES3jOcw+MEzwKhLNfEMjO8YmRypTInKte5tlM0Z1H00mm7eGVusFXRbvlbCpVhVKpnby3hyB+YJktQQr+XZicCEpc/HTwuZwdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('hbUac+9oiMFk1fdaPq3rVTZ3ohKnHSXcFurXW6eVfrbaNBvT1nB1oSEAwPgrsrv6Eu1QRDhjy0R3fYWQLg2JbqUSe+ieiusf5EZI6k+D77jBfb8ykTP5323KI4QNHWvZFyXfkyWdsnJqnXumxAxMDwdB04t89/1O/w1cDnyilFU=')
 
-handler = WebhookHandler('b52864ae77a3c4600be09ec5a5412ebb')
+handler = WebhookHandler('828adf1950ffce3f06c7092f68c44e2b')
 
 line_bot_api.push_message('U2c86509e20f6503faca9b6772775a908', TextSendMessage(text='系統測試中，若您覺得訊息干擾到您，您可以將聊天室設為靜音，謝謝喔！'))
 
