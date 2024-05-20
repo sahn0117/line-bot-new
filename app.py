@@ -8,13 +8,16 @@ Created on Fri Aug 21 22:05:00 2020
 import json
 from flask import Flask, request, abort
 from linebot import (LineBotApi, WebhookHandler)
-from linebot.exceptions import (InvalidSignatureError)
-from linebot.models import *
+from linebot.exceptions import ( InvalidSignatureError)
+from linebot.models import (  MessageEvent, TextMessage, TextSendMessage)
+import openai
 import QA_Col
 import random
 
 app = Flask(__name__)
 
+# 在程式碼中設定 API 金鑰
+openai.api_key = 'your-openai-api-key'
 
 line_bot_api = LineBotApi('irls/WjLt0CaZdR8sjH02YcMQ5xaUfwDdAP6ZDAaS6Fcrdm/IQ649QES3jOcw+MEzwKhLNfEMjO8YmRypTInKte5tlM0Z1H00mm7eGVusFXRbvlbCpVhVKpnby3hyB+YJktQQr+XZicCEpc/HTwuZwdB04t89/1O/w1cDnyilFU=')
 
@@ -710,6 +713,24 @@ def handle_message(event):
 
 
 
+##############################################################################
+elif user_message.find('AI客服') != -1:  # 判斷用戶是否傳來 "AI客服" 關鍵字
+    # 調用 ChatGPT 來生成回應
+    chatgpt_response = ask_chatgpt(user_message)
+
+    # 發送由 ChatGPT 生成的回應
+    res_message = TextSendMessage(text=chatgpt_response)
+    line_bot_api.reply_message(event.reply_token, res_message)
+    return 0
+def ask_chatgpt(prompt):
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",  # 或您選擇的任何適合的模型
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return response.choices[0].message['content']
+    except Exception as e:
+        return f"抱歉，發生了錯誤：{str(e)}"
 ###############################################################################
 import os
 
