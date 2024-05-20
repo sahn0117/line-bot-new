@@ -43,24 +43,36 @@ def callback():
 
     return 'OK'
 
-######################處理LINE USER 傳來得訊息 ###############################
+#######################處理LINE USER 傳來得訊息 ###############################
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     # get user id when reply
-    
     profile = line_bot_api.get_profile(event.source.user_id)
     nameid = profile.display_name     #使用者名稱
     uid = profile.user_id             #使用者ID  
     user_message=str(event.message.text) 
-    
 
-        #user_message='圖文訊息'
+    # 判斷用戶是否傳來 "AI客服" 關鍵字
+    if user_message.find('AI客服') != -1:
+        # 調用 ChatGPT 來生成回應
+        chatgpt_response = ask_chatgpt(user_message)
+        # 發送由 ChatGPT 生成的回應
+        res_message = TextSendMessage(text=chatgpt_response)
+        line_bot_api.reply_message(event.reply_token, res_message)
+        return 0
+
+    #user_message='圖文訊息'
     if user_message.find('圖文訊息') != -1:    
-        
         res_message = TemplateSendMessage(
             alt_text='圖文訊息',
             template = CarouselTemplate(
                 columns=[
+                    # 原始的columns內容...
+                ]
+            )
+        )
+        line_bot_api.reply_message(event.reply_token,res_message)
+        return 0
 #-----------------------------------------------------------------------------                    
                     CarouselColumn(
                         # thumbnail_image_url='',
@@ -714,14 +726,6 @@ def handle_message(event):
 
 
 ##############################################################################
-elif user_message.find('AI客服') != -1:  # 判斷用戶是否傳來 "AI客服" 關鍵字
-    # 調用 ChatGPT 來生成回應
-    chatgpt_response = ask_chatgpt(user_message)
-
-    # 發送由 ChatGPT 生成的回應
-    res_message = TextSendMessage(text=chatgpt_response)
-    line_bot_api.reply_message(event.reply_token, res_message)
-    return 0
 def ask_chatgpt(prompt):
     try:
         response = openai.ChatCompletion.create(
