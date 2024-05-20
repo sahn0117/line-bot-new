@@ -17,7 +17,7 @@ import random
 app = Flask(__name__)
 
 # 在程式碼中設定 API 金鑰
-openai.api_key = 'your-openai-api-key'
+openai.api_key = 'sk-proj-Pz0R5C0BT0KMme72cUrXT3BlbkFJrZK8C1UPzuCubqufTJO2'
 
 line_bot_api = LineBotApi('irls/WjLt0CaZdR8sjH02YcMQ5xaUfwDdAP6ZDAaS6Fcrdm/IQ649QES3jOcw+MEzwKhLNfEMjO8YmRypTInKte5tlM0Z1H00mm7eGVusFXRbvlbCpVhVKpnby3hyB+YJktQQr+XZicCEpc/HTwuZwdB04t89/1O/w1cDnyilFU=')
 
